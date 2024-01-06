@@ -4,7 +4,6 @@ pipeline {
 
     environment {
             MAVEN_HOME = '/usr/share/maven'
-            M2_HOME = MAVEN_HOME
             PATH = "${MAVEN_HOME}/bin"
         }
 

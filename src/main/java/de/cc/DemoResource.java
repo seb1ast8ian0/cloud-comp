@@ -12,7 +12,7 @@ public class DemoResource {
     @Produces(MediaType.TEXT_PLAIN)
     public String hello() {
 
-        return "Hello World Test!";
+        return "Hello World Test 2!";
 
     }
 }

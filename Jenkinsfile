@@ -10,7 +10,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn clean package -DskipTests' // Baut das Projekt mit Maven, überspringt Tests
+                //sh 'mvn clean package -DskipTests' // Baut das Projekt mit Maven, überspringt Tests
+                sh 'mvn --version'
             }
         }
         stage('Test') {

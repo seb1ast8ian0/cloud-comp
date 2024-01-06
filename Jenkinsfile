@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    jenkins-docker{
+
+        image 'maven'
+
+    }
 
     environment {
             MAVEN_HOME = '/usr/share/maven'

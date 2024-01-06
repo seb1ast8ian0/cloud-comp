@@ -1,16 +1,9 @@
 pipeline {
     agent any
 
-    jenkins-docker{
-
+    docker{
         image 'maven'
-
     }
-
-    environment {
-            MAVEN_HOME = '/usr/share/maven'
-            PATH = "${MAVEN_HOME}/bin"
-        }
 
     stages {
         stage('Build') {

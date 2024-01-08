@@ -26,10 +26,8 @@ pipeline {
                         remote.user = userName
                         remote.identityFile = identity
                         echo userName
-                        sshCommand remote: remote, command: "git clone https://github.com/seb1ast8ian0/cloud-comp"
-                        sshCommand remote: remote, command: "cd cloud-comp"
-                        sshCommand remote: remote, command: "ls"
-
+                        writeFile file: 'abc.sh', text: 'git clone https://github.com/seb1ast8ian0/cloud-comp'
+                        sshScript remote: remote, script: "abc.sh"
                     }
                 }
             }

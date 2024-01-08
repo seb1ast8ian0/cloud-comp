@@ -1,7 +1,6 @@
 pipeline {
     agent any
     stages {
-        /*
         stage('Build') {
             steps {
                 sh 'mvn clean package -DskipTests'
@@ -12,7 +11,6 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        */
         stage('Deployment') {
 
             steps{
@@ -29,7 +27,7 @@ pipeline {
                         sshCommand remote: remote, command: "[ -d cloud-comp ] && rm -r cloud-comp"
                         sshCommand remote: remote, command: "git clone https://github.com/seb1ast8ian0/cloud-comp"
                         try {
-                            timeout(time: 2, unit: 'SECONDS'){
+                            timeout(time: 30, unit: 'SECONDS'){
                                 sshCommand remote: remote, command: "cd cloud-comp && nohup mvn quarkus:dev -Dquarkus.http.host=0.0.0.0 &"
                             }
                         } catch(Exception e){

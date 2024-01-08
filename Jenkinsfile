@@ -32,9 +32,10 @@ pipeline {
                             }
                         } catch(err){
                             def isTimeout = err.toString().contains('Timeout')
+                            echo err.getCause()
                             echo err.toString()
                             if (isTimeout) {
-                                echo err.getCause()
+
                                 currentBuild.result = 'SUCCESS'
                             } else {
                                 // Hier kannst du entscheiden, was passieren soll, wenn eine andere Exception auftritt

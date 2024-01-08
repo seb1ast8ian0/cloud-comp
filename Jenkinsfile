@@ -17,13 +17,14 @@ pipeline {
         stage('Deployment') {
             steps {
                 script {
+
                     def remote = [:]
                     remote.name = "targetsystem"
                     remote.host = "3.79.103.21"
                     remote.allowAnyHosts = true
 
-                    def commands = [
-                        {
+                    parallel {
+                        stage('A'){
                             withCredentials([sshUserPrivateKey(credentialsId: '487ce621-5f6a-41b1-9768-3acb31c09f93', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
                                 remote.user = userName
                                 remote.identityFile = identity
@@ -34,7 +35,7 @@ pipeline {
                                 sshCommand remote: remote, command: "cd cloud-comp && nohup mvn quarkus:dev -Dquarkus.http.host=0.0.0.0 &"
                             }
                         },
-                        {
+                        stage('B'){
                             timeout(time: 30, unit: 'SECONDS') {
                                 // Hier überwache den Server und markiere den Build basierend auf der Antwort des Servers
                                 def serverResponding = false
@@ -49,9 +50,10 @@ pipeline {
                                 }
                             }
                         }
-                    ]
 
-                    parallel(commands)
+                    }
+
+
                 }
             }
         }

@@ -23,11 +23,17 @@ pipeline {
                                 sshCommand remote: remote, command: "[ -d cloud-comp ] && rm -r cloud-comp"
                                 sshCommand remote: remote, command: "git clone https://github.com/seb1ast8ian0/cloud-comp"
                                 try {
-                                    timeout(time: 45, unit: 'SECONDS'){
+                                    timeout(time: 30, unit: 'SECONDS'){
                                         sshCommand remote: remote, command: "cd cloud-comp && nohup mvn quarkus:dev -Dquarkus.http.host=0.0.0.0 &"
                                     }
                                 } catch(err){
-                                    currentBuild.result = "SUCCESS"
+                                    def isTimeout = err.toString().contains('Timeout')
+                                    if (isTimeout) {
+                                        currentBuild.result = 'SUCCESS'
+                                    } else {
+                                        // Hier kannst du entscheiden, was passieren soll, wenn eine andere Exception auftritt
+                                        currentBuild.result = 'FAILURE'
+                                    }
                                 }
 
                             }

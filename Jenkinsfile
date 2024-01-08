@@ -29,7 +29,7 @@ pipeline {
                     }
 
                     sshagent(['487ce621-5f6a-41b1-9768-3acb31c09f93']) {
-                        sh 'ssh -o StrictHostKeyChecking=no ec2-user@3.79.103.21'
+                        sh 'ssh -o StrictHostKeyChecking=no ec2-user@3.79.103.21 ls'
                     }
                 }
             }

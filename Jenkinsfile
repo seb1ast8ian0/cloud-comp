@@ -25,7 +25,8 @@ pipeline {
                     withCredentials([sshUserPrivateKey(credentialsId: '487ce621-5f6a-41b1-9768-3acb31c09f93', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
                         remote.user = userName // Benutze env.userName anstelle von userName
                         remote.identityFile = identity // Benutze env.identity anstelle von identity
-                        sshCommand remote: remote, command: 'for i in {1..5}; do echo -n \"Loop \$i \"; date ; sleep 1; done'
+                        sshCommand remote: remote, command: 'ls -l'
+                        sshCommand remote: remote, command: 'whoami'
                     }
                 }
             }

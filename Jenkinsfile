@@ -12,6 +12,7 @@ pipeline {
                 sh 'mvn test' // Führt Tests aus
             }
         }
+
         */
 
         stage('Deployment') {

@@ -23,7 +23,7 @@ pipeline {
                     remote.allowAnyHosts = true
 
                     withCredentials([sshUserPrivateKey(credentialsId: '487ce621-5f6a-41b1-9768-3acb31c09f93', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
-                        remote.user = "ec2-user"
+                        remote.user = userName
                         remote.identityFile = identity
                         echo userName
                         writeFile file: 'abc.sh', text: 'ls -lrt'

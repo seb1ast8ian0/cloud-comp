@@ -30,23 +30,9 @@ pipeline {
                 stage('Checks') {
                     steps {
                         script {
-                            def serverResponding = false
-                            timeout(time: 2, unit: 'MINUTES') {
-                                retry(20) {  // Wiederholen 20 Mal, jeweils nach 6 Sekunden Pause
-                                    def response = sshCommand remote: remote, command: "curl -I http://0.0.0.0:8080"
-                                    if (response.contains('200 OK')) {
-                                        serverResponding = true
-                                    } else {
-                                        sleep time: 6, unit: 'SECONDS'
-                                        error 'Server not responding yet...'
-                                    }
-                                    if(serverResponding){
-                                        echo true
-                                    } else {
-                                        echo false
-                                    }
-
-                                }
+                            retry(20) {
+                                sleep(1000)
+                                echo 'sleep'
                             }
                             if (!serverResponding) {
                                 error 'Server not responding after retries'

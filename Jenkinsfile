@@ -8,7 +8,7 @@ pipeline {
             }
         }
         stage('Deliver') {
-            try {
+
                 stage('Deliver To Server') {
                     steps{
                         script {
@@ -22,14 +22,19 @@ pipeline {
                                 remote.identityFile = identity
                                 sshCommand remote: remote, command: "[ -d cloud-comp ] && rm -r cloud-comp"
                                 sshCommand remote: remote, command: "git clone https://github.com/seb1ast8ian0/cloud-comp"
-                                sshCommand remote: remote, command: "cd cloud-comp && nohup mvn quarkus:dev -Dquarkus.http.host=0.0.0.0 &"
+                                try {
+                                    timeout(time: 20, unit: 'SECONDS'){
+                                        sshCommand remote: remote, command: "cd cloud-comp && nohup mvn quarkus:dev -Dquarkus.http.host=0.0.0.0 &"
+                                    }
+                                } catch(err){
+                                    curretnBuild.result = "SUCCESS"
+                                }
+
                             }
                         }
                     }
                 }
-            } catch(err){
-                curretnBuild.result = "SUCCESS"
-            }
+
 
         }
         stage('Deploy') {

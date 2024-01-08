@@ -31,7 +31,7 @@ pipeline {
                     steps {
                         script {
                             retry(20) {
-                                sleep(1000)
+                                sleep(1)
                                 echo 'sleep'
                             }
                             if (!serverResponding) {

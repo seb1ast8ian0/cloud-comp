@@ -34,7 +34,7 @@ pipeline {
                                 sshCommand remote: remote, command: "git clone https://github.com/seb1ast8ian0/cloud-comp"
                                 sshCommand remote: remote, command: "cd cloud-comp && nohup mvn quarkus:dev -Dquarkus.http.host=0.0.0.0 &"
                             }
-                        },
+                        }
                         stage('B'){
                             timeout(time: 30, unit: 'SECONDS') {
                                 // Hier überwache den Server und markiere den Build basierend auf der Antwort des Servers

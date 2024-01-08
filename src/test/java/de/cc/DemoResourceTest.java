@@ -14,7 +14,7 @@ class DemoResourceTest {
                 .when().get("/demo")
                 .then()
                 .statusCode(200)
-                .body(is("Hello World Test!"));
+                .body(is("Hello CloudComputingTester!"));
     }
 
 }

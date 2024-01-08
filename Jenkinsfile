@@ -17,6 +17,9 @@ pipeline {
 */
         stage('Deployment') {
             steps {
+                sshagent(['487ce621-5f6a-41b1-9768-3acb31c09f93']) {
+                    sh "docker version"
+                }
                 withCredentials([sshUserPrivateKey(credentialsId: '487ce621-5f6a-41b1-9768-3acb31c09f93', keyFileVariable: 'SSH_PRIVATE_KEY')]) {
                     script {
                         sh '''

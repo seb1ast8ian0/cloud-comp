@@ -32,7 +32,7 @@ pipeline {
                             }
                         } catch(err){
                             def isTimeout = err.toString().contains('Timeout')
-                            echo err.getResult()
+                            echo err.isActualInterruption()
                             echo err.toString()
                             if (isTimeout) {
 

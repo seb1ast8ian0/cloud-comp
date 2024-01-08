@@ -24,10 +24,8 @@ pipeline {
                       '''
                     sh 'echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa' // Speichern des SSH-Schlüssels in einem temporären Ordner
                     sh 'chmod 600 ~/.ssh/id_rsa' // Ändern der Berechtigungen des Schlüssels
-
-                }
-                sshagent(credentials: ['487ce621-5f6a-41b1-9768-3acb31c09f93']) {
                     sh 'ssh -i ~/.ssh/id_rsa ec2-user@3.79.103.21'
+                    sh 'git --version'
                 }
             }
         }

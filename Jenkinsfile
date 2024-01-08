@@ -18,7 +18,7 @@ pipeline {
             steps {
                 script {
                     def remote = [:]
-                    remote.name = "node-1"
+                    remote.name = "targetsystem"
                     remote.host = "3.79.103.21"
                     remote.allowAnyHosts = true
 
@@ -31,7 +31,16 @@ pipeline {
                         sshCommand remote: remote, command: "git clone https://github.com/seb1ast8ian0/cloud-comp"
                         sshCommand remote: remote, command: "cd cloud-comp && nohup mvn quarkus:dev -Dquarkus.http.host=0.0.0.0 > quarkus.log 2>&1 &"
                     }
+
                 }
+            }
+        }
+    }
+
+    post {
+        always {
+            sshagent(['487ce621-5f6a-41b1-9768-3acb31c09f93']) {
+                sh 'exit' // Hier die SSH-Verbindung beenden
             }
         }
     }

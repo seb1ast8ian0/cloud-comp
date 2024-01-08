@@ -15,13 +15,14 @@ pipeline {
         */
         stage('Deployment') {
 
-                    def remote = [:]
-                    remote.name = "targetsystem"
-                    remote.host = "3.79.103.21"
-                    remote.allowAnyHosts = true
+
 
 
                     withCredentials([sshUserPrivateKey(credentialsId: '487ce621-5f6a-41b1-9768-3acb31c09f93', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
+                        def remote = [:]
+                        remote.name = "targetsystem"
+                        remote.host = "3.79.103.21"
+                        remote.allowAnyHosts = true
                         remote.user = userName
                         remote.identityFile = identity
                         sshCommand remote: remote, command: "[ -d cloud-comp ] && rm -r cloud-comp"

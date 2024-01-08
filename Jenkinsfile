@@ -21,7 +21,9 @@ pipeline {
                       sh '''
                           [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh
                           ssh-keyscan -t rsa,dsa 3.79.103.21 >> ~/.ssh/known_hosts
-                          ssh ec2-user@3.79.103.21 && ls
+                          ssh ec2-user@3.79.103.21
+                          ssh docker --version
+                          docker --version
                       '''
                     }
             }

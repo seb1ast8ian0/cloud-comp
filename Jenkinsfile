@@ -15,12 +15,14 @@ pipeline {
         }
 
 */
+        def remote = [:]
+        remote.name = "node-1"
+        remote.host = "3.79.103.21"
+        remote.allowAnyHosts = true
+
         stage('Deployment') {
 
-            def remote = [:]
-            remote.name = "node-1"
-            remote.host = "3.79.103.21"
-            remote.allowAnyHosts = true
+
 
             node {
                 withCredentials([sshUserPrivateKey(credentialsId: '487ce621-5f6a-41b1-9768-3acb31c09f93', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'ec2-user')]) {

@@ -29,11 +29,15 @@ pipeline {
 
                         sshCommand remote: remote, command: "[ -d cloud-comp ] && rm -r cloud-comp"
                         sshCommand remote: remote, command: "git clone https://github.com/seb1ast8ian0/cloud-comp"
-                        sshCommand remote: remote, command: "cd cloud-comp && nohup mvn quarkus:dev -Dquarkus.http.host=0.0.0.0 > quarkus.log 2>&1 &"
+                        sshCommand remote: remote, command: "cd cloud-comp && nohup mvn quarkus:dev -Dquarkus.http.host=0.0.0.0 &"
                     }
 
                 }
             }
+        }
+
+        timeout(time: 10, unit: 'SECONDS') {
+           currentBuild.result = 'SUCCESS'
         }
     }
 

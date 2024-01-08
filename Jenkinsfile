@@ -23,10 +23,10 @@ pipeline {
                     remote.allowAnyHosts = true
 
                     withCredentials([sshUserPrivateKey(credentialsId: '487ce621-5f6a-41b1-9768-3acb31c09f93', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
-                        remote.user = userName // Benutze env.userName anstelle von userName
-                        remote.identityFile = identity // Benutze env.identity anstelle von identity
-                        sshCommand remote: remote, command: 'ls -l'
-                        sshCommand remote: remote, command: 'whoami'
+                        remote.user = userName
+                        remote.identityFile = identity
+                        writeFile file: 'abc.sh', text: 'ls -lrt'
+                        sshScript remote: remote, script: "abc.sh"
                     }
                 }
             }

@@ -22,6 +22,10 @@ pipeline {
                     remote.host = "3.79.103.21"
                     remote.allowAnyHosts = true
 
+                    timeout(time: 10, unit: 'SECONDS') {
+                       currentBuild.result = 'SUCCESS'
+                    }
+
                     withCredentials([sshUserPrivateKey(credentialsId: '487ce621-5f6a-41b1-9768-3acb31c09f93', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
                         remote.user = userName
                         remote.identityFile = identity
@@ -36,9 +40,7 @@ pipeline {
             }
         }
 
-        timeout(time: 10, unit: 'SECONDS') {
-           currentBuild.result = 'SUCCESS'
-        }
+
     }
 
     post {

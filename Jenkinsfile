@@ -16,7 +16,8 @@ pipeline {
 
         stage('Deployment') {
             steps {
-                script {
+            def commands = {
+
                     def remote = [:]
                     remote.name = "targetsystem"
                     remote.host = "3.79.103.21"
@@ -32,20 +33,27 @@ pipeline {
                         sshCommand remote: remote, command: "cd cloud-comp && nohup mvn quarkus:dev -Dquarkus.http.host=0.0.0.0 &"
                     }
 
-                    timeout(time: 10, unit: 'SECONDS') {
-                            // Hier überwache den Server und markiere den Build basierend auf der Antwort des Servers
-                            def serverResponding = false
-                            while (!serverResponding) {
-                                def response = sshCommand remote: remote, command: "curl -I http://0.0.0.0:8080"
-                                if (response.contains('200 OK')) {
-                                    serverResponding = true
-                                } else {
-                                    sleep time: 1, unit: 'SECONDS'
-                                }
-                            }
+            }, {
+
+                timeout(time: 30, unit: 'SECONDS') {
+                    // Hier überwache den Server und markiere den Build basierend auf der Antwort des Servers
+                    def serverResponding = false
+                    while (!serverResponding) {
+                        def response = sshCommand remote: remote, command: "curl -I http://0.0.0.0:8080"
+                        if (response.contains('200 OK')) {
+                            serverResponding = true
+
+                        } else {
+                            sleep time: 1, unit: 'SECONDS'
                         }
 
+                        echo serverResponding
+                    }
                 }
+
+
+            }
+                parallel(commands)
             }
         }
 

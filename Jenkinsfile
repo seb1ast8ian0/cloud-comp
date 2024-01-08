@@ -22,10 +22,6 @@ pipeline {
                     remote.host = "3.79.103.21"
                     remote.allowAnyHosts = true
 
-                    timeout(time: 10, unit: 'SECONDS') {
-                       currentBuild.result = 'SUCCESS'
-                    }
-
                     withCredentials([sshUserPrivateKey(credentialsId: '487ce621-5f6a-41b1-9768-3acb31c09f93', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
                         remote.user = userName
                         remote.identityFile = identity
@@ -35,6 +31,19 @@ pipeline {
                         sshCommand remote: remote, command: "git clone https://github.com/seb1ast8ian0/cloud-comp"
                         sshCommand remote: remote, command: "cd cloud-comp && nohup mvn quarkus:dev -Dquarkus.http.host=0.0.0.0 &"
                     }
+
+                    timeout(time: 10, unit: 'SECONDS') {
+                            // Hier überwache den Server und markiere den Build basierend auf der Antwort des Servers
+                            def serverResponding = false
+                            while (!serverResponding) {
+                                def response = sshCommand remote: remote, command: "curl -I http://0.0.0.0:8080"
+                                if (response.contains('200 OK')) {
+                                    serverResponding = true
+                                } else {
+                                    sleep time: 1, unit: 'SECONDS'
+                                }
+                            }
+                        }
 
                 }
             }

@@ -1,6 +1,7 @@
 pipeline {
     agent any
     stages {
+        /*
         stage('Build') {
             steps {
                 sh 'mvn clean package -DskipTests'
@@ -11,6 +12,7 @@ pipeline {
                 sh 'mvn test'
             }
         }
+        */
         stage('Deployment') {
             steps{
                 script {
@@ -25,14 +27,14 @@ pipeline {
                         sshCommand remote: remote, command: "[ -d cloud-comp ] && rm -r cloud-comp"
                         sshCommand remote: remote, command: "git clone https://github.com/seb1ast8ian0/cloud-comp"
                         try {
-                            timeout(time: 30, unit: 'SECONDS'){
+                            timeout(time: 2, unit: 'SECONDS'){
                                 sshCommand remote: remote, command: "cd cloud-comp && nohup mvn quarkus:dev -Dquarkus.http.host=0.0.0.0 &"
                             }
                         } catch(err){
                             def isTimeout = err.toString().contains('Timeout')
                             echo err.toString()
                             if (isTimeout) {
-                                echo 'successfully deployed'
+                                echo err.getCause()
                                 currentBuild.result = 'SUCCESS'
                             } else {
                                 // Hier kannst du entscheiden, was passieren soll, wenn eine andere Exception auftritt

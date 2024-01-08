@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Deliver') {
 
-                stage('Deliver To Server') {
+
                     steps{
                         script {
                             def remote = [:]
@@ -33,7 +33,6 @@ pipeline {
                             }
                         }
                     }
-                }
 
 
         }

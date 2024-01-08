@@ -29,7 +29,7 @@ pipeline {
 
                         sshCommand remote: remote, command: "[ -d cloud-comp ] && rm -r cloud-comp"
                         sshCommand remote: remote, command: "git clone https://github.com/seb1ast8ian0/cloud-comp"
-                        sshCommand remote: remote, command: "cd cloud-comp && mvn quarkus:dev -Dquarkus.http.host=0.0.0.0"
+                        sshCommand remote: remote, command: "cd cloud-comp && nohup mvn quarkus:dev -Dquarkus.http.host=0.0.0.0 > quarkus.log 2>&1 &"
                     }
                 }
             }

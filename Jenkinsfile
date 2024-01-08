@@ -30,6 +30,7 @@ pipeline {
                             }
                         } catch(err){
                             def isTimeout = err.toString().contains('Timeout')
+                            echo err.toString()
                             if (isTimeout) {
                                 echo 'successfully deployed'
                                 currentBuild.result = 'SUCCESS'

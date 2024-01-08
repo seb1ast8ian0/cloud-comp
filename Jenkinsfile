@@ -23,7 +23,7 @@ pipeline {
                     sh 'chmod 600 ~/.ssh/id_rsa' // Ändern der Berechtigungen des Schlüssels
                 }
                 sshagent(credentials: ['487ce621-5f6a-41b1-9768-3acb31c09f93']) {
-                    sh 'ssh /.ssh/id_rsa -i ec2-user@3.79.103.21'
+                    sh 'ssh ~/.ssh/id_rsa -i ec2-user@3.79.103.21'
                 }
             }
         }
